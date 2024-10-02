@@ -3,6 +3,7 @@ import math
 from PyQt5.QtWidgets import QApplication, QWidget
 from PyQt5.QtGui import QPainter, QColor, QBrush, QPen, QPixmap
 from PyQt5.QtCore import QTimer, QPoint
+import json
 
 
 class CelestialBody(object):
@@ -30,21 +31,6 @@ class CelestialBody(object):
         if len(self.trace) > self.rot_radius + self.radius * 10:  
             self.trace.pop(0)  # удаляем лишнии точки, если след слишком большой
 
-
-class Satellite(CelestialBody):
-    def __init__(self,color, planet, radius, rot_radius=0, speed=0, angle=0):   # указать тип planet
-        super().__init__(color, radius, rot_radius, speed, angle)
-        self.planet = planet  # планета вокруг которой вращается спутник
-
-    def move(self):
-        self.angle += self.speed
-        if self.angle >= 2 * math.pi:
-            self.angle -= 2 * math.pi
-        elif self.angle <= 0:
-            self.angle += 2 * math.pi
-        self.x = round(self.rot_radius * math.cos(self.angle) + self.planet.x)
-        self.y = round(self.rot_radius * math.sin(self.angle) + self.planet.y)
-
         
 class SolarSystem(QWidget):
     def __init__(self, window_size_x=1000, window_size_y=1000):  
@@ -57,23 +43,11 @@ class SolarSystem(QWidget):
 
         # устанавливаем картинку для фона
         self.pixmap = QPixmap('Безымянный рисунок.png')
-      
-        # прозрачность задается 4-ым аргументом в QColor(), от 0 до 255
-        # CelestialBody(color, radius, rot_radius=0, speed=0, angle=0)       # RGB
-        planet1 = CelestialBody(QColor(176, 196, 222, 255), 10, 70, 0.02)    # Меркурий
-        planet2 = CelestialBody(QColor(255, 218, 185, 255), 15, 100, 0.015)  # Венера
-        planet3 = CelestialBody(QColor(30, 144, 255, 255), 15, 140, 0.01)    # Земля
-        planet4 = CelestialBody(QColor(165, 42, 42, 170), 12, 180, 0.008)    # Марс
-        planet5 = CelestialBody(QColor(184, 134, 11, 120), 40, 240, 0.005)   # Юпитер
-        planet6 = CelestialBody(QColor(240, 230, 140, 70), 30, 300, 0.004)   # Сатурн
-        planet7 = CelestialBody(QColor(0, 191, 255, 50), 20, 360, 0.003)     # Уран
-        planet8 = CelestialBody(QColor(65, 105, 225, 150), 18, 420, 0.002)   # Нептун
 
-        moon = Satellite(QColor(255, 250, 205, 200), planet3, 5, 25, 0.04)
-        phobos = Satellite(QColor(255, 250, 205, 180), planet4, 4, 25, 0.02, angle=0.5)  
-        deimos = Satellite(QColor(255, 250, 205, 190), planet4, 4, 25, 0.023)
+        with open("data.json", "r") as f:
+            planet_data = json.load(f)
 
-        self.celestial_bodies = [planet1, planet2, planet3, planet4, planet5, planet6, planet7, planet8, moon, phobos, deimos]
+        self.celestial_bodies = [CelestialBody(QColor(*data['color']), data['radius'], data['rot_radius'], data['speed'], data['angle'],) for data in planet_data]
         self.sun = CelestialBody(QColor(255, 255, 0), 30)  # Солнце
 
     def paintEvent(self, event):
@@ -88,7 +62,7 @@ class SolarSystem(QWidget):
         painter.setPen(QPen(QColor('black'), 3))
         painter.drawEllipse(self.sun.x - self.sun.radius + self.center_x, self.sun.y - self.sun.radius + self.center_y, 2 * self.sun.radius, 2 * self.sun.radius)
 
-        # рисуем планеты и спутники
+        # рисуем планеты
         for body in self.celestial_bodies:
             painter.setBrush(QBrush(body.color))
             painter.setPen(QPen(QColor('black'), 3))
