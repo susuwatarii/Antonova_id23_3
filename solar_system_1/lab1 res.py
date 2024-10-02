@@ -31,8 +31,23 @@ class CelestialBody(object):
         if len(self.trace) > self.rot_radius + self.radius * 10:  
             self.trace.pop(0)  # удаляем лишнии точки, если след слишком большой
 
+
+class Satellite(CelestialBody):
+    def __init__(self,color, planet, radius, rot_radius=0, speed=0, angle=0):   # указать тип planet
+        super().__init__(color, radius, rot_radius, speed, angle)
+        self.planet = planet  # планета вокруг которой вращается спутник
+
+    def move(self):
+        self.angle += self.speed
+        if self.angle >= 2 * math.pi:
+            self.angle -= 2 * math.pi
+        elif self.angle <= 0:
+            self.angle += 2 * math.pi
+        self.x = round(self.rot_radius * math.cos(self.angle) + self.planet.x)
+        self.y = round(self.rot_radius * math.sin(self.angle) + self.planet.y)
+
         
-class SolarSystem(QWidget):
+class SolarSystem(QWidget):  # MyWidget
     def __init__(self, window_size_x=1000, window_size_y=1000):  
         super().__init__()
         self.setWindowTitle(" ~ Solar System ~ ") 
@@ -48,6 +63,12 @@ class SolarSystem(QWidget):
             planet_data = json.load(f)
 
         self.celestial_bodies = [CelestialBody(QColor(*data['color']), data['radius'], data['rot_radius'], data['speed'], data['angle'],) for data in planet_data]
+        moon = Satellite(QColor(176, 196, 222, 255), self.celestial_bodies[2], 4, 25, 0.02)
+        phobos = Satellite(QColor(220, 200, 222, 100), self.celestial_bodies[3], 4, 20, 0.035)
+        deimos = Satellite(QColor(200, 196, 222, 200), self.celestial_bodies[3], 4, 20, 0.02)
+        self.celestial_bodies.append(moon)
+        self.celestial_bodies.append(phobos)
+        self.celestial_bodies.append(deimos)
         self.sun = CelestialBody(QColor(255, 255, 0), 30)  # Солнце
 
     def paintEvent(self, event):
