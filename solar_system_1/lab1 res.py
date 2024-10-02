@@ -12,11 +12,11 @@ class CelestialBody(object):
         self.rot_radius = rot_radius  # радиус вращения
         self.speed = speed
         self.angle = angle 
-        self.x = round(self.rot_radius * math.cos(self.angle))                     # создать ли setter или getter
+        self.x = round(self.rot_radius * math.cos(self.angle))       
         self.y = round(self.rot_radius * math.sin(self.angle)) 
         self.trace = []  # след от объекта
 
-    def move(self, trace=True):
+    def move(self):
         self.angle += self.speed
         if self.angle >= 2 * math.pi:
             self.angle -= 2 * math.pi
@@ -59,7 +59,7 @@ class SolarSystem(QWidget):
         self.pixmap = QPixmap('Безымянный рисунок.png')
       
         # прозрачность задается 4-ым аргументом в QColor(), от 0 до 255
-        # CelestialBody(color, radius, rot_radius=0, speed=0, angle=0)
+        # CelestialBody(color, radius, rot_radius=0, speed=0, angle=0)       # RGB
         planet1 = CelestialBody(QColor(176, 196, 222, 255), 10, 70, 0.02)    # Меркурий
         planet2 = CelestialBody(QColor(255, 218, 185, 255), 15, 100, 0.015)  # Венера
         planet3 = CelestialBody(QColor(30, 144, 255, 255), 15, 140, 0.01)    # Земля
