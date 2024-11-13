@@ -1,0 +1,58 @@
+[
+    {
+     "color": [176, 196, 222, 255],
+     "radius": 10,
+     "rot_radius": 70,
+     "speed": 0.02,
+     "angle": 0
+    },
+    {
+     "color": [255, 218, 185, 255],
+     "radius": 15,
+     "rot_radius": 100,
+     "speed": 0.015,
+     "angle": 0
+    },
+    {
+     "color": [30, 144, 255, 255],
+     "radius": 15,
+     "rot_radius": 140,
+     "speed": 0.01,
+     "angle": 0
+    },
+    {
+     "color": [165, 42, 42, 170],
+     "radius": 12,
+     "rot_radius": 180,
+     "speed": 0.008,
+     "angle": 0
+    },
+    {
+     "color": [184, 134, 11, 120],
+     "radius": 40,
+     "rot_radius": 240,
+     "speed": 0.005,
+     "angle": 0
+    },
+    {
+     "color": [240, 230, 140, 70],
+     "radius": 30,
+     "rot_radius": 300,
+     "speed": 0.004,
+     "angle": 0
+    },
+    {
+     "color": [0, 191, 255, 50],
+     "radius": 20,
+     "rot_radius": 360,
+     "speed": 0.003,
+     "angle": 0
+    },
+    {
+     "color": [65, 105, 225, 150],
+     "radius": 18,
+     "rot_radius": 420,
+     "speed": 0.002,
+     "angle": 0
+    }
+   ]
