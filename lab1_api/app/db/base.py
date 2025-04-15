@@ -1,5 +1,4 @@
 from sqlalchemy.orm import DeclarativeBase
-# Явный импорт ВСЕХ моделей
 
 
 
