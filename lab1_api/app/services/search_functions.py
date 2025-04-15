@@ -72,6 +72,7 @@ def damerau_levenshtein_search(corpus_word, word):
 def levenstein_search(corpus_word, word):
     """
     Расстояние Левенштейна между двумя словами
+    (подсчет операций удаления, вставки и замены)
 
     Args:
         corpus_word (String): слово
