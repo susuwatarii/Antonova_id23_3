@@ -4,7 +4,6 @@ import time
 def search(corpus_text, word, algorithm):
     """
     Выбор типа поиска, запуск поиска и замер времени
-    (подсчет операций удаления, вставки и замены)
 
     Args:
         corpus_text (String): текст для поиска в нем
